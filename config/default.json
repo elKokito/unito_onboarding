@@ -1,0 +1,9 @@
+{
+    "trello": {
+        "key" : "",
+        "url" : "https://trello.com/1/authorize?scope=read%2Cwrite&name=OnboardingApp&response_type=token&expiration=never&key="
+    },
+    "db": {
+        "file": "db/tokens.json"
+    }
+}
