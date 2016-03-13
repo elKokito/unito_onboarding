@@ -8,16 +8,16 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state ={boards: [], username: "", labels: []};
+        this.state ={boards: [], username: "", labels: [], selected_board: ""};
     }
 
     submitBoards(boards, username) {
         this.setState({boards: boards, username: username});
-        //this.forceUpdate();
     }
 
     requestBoard(boardid) {
         var self = this;
+        this.state.selected_board = boardid;
         request
         .get("/board_labels?id=" + boardid + "&username=" + self.state.username)
         .end(function(err, res) {
@@ -25,7 +25,6 @@ class App extends React.Component {
             .post("/duplicate")
             .send({labels: res.body})
             .end(function(err, res) {
-                console.log(res);
                 self.setState({labels: res.body});
             });
         });
@@ -33,11 +32,10 @@ class App extends React.Component {
 
     sendDuplicateCorrection(obj) {
         var self = this;
-        console.log('sending to server:');
-        console.log(obj);
+        this.state.labels = obj;
         request
         .post("/merge")
-        .send(obj)
+        .send(self.state)
         .end(function(err, res) {
             console.log(res);
         });

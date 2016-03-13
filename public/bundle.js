@@ -78,7 +78,7 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
 
-	        _this.state = { boards: [], username: "", labels: [] };
+	        _this.state = { boards: [], username: "", labels: [], selected_board: "" };
 	        return _this;
 	    }
 
@@ -86,15 +86,14 @@
 	        key: 'submitBoards',
 	        value: function submitBoards(boards, username) {
 	            this.setState({ boards: boards, username: username });
-	            //this.forceUpdate();
 	        }
 	    }, {
 	        key: 'requestBoard',
 	        value: function requestBoard(boardid) {
 	            var self = this;
+	            this.state.selected_board = boardid;
 	            _superagent2.default.get("/board_labels?id=" + boardid + "&username=" + self.state.username).end(function (err, res) {
 	                _superagent2.default.post("/duplicate").send({ labels: res.body }).end(function (err, res) {
-	                    console.log(res);
 	                    self.setState({ labels: res.body });
 	                });
 	            });
@@ -103,9 +102,8 @@
 	        key: 'sendDuplicateCorrection',
 	        value: function sendDuplicateCorrection(obj) {
 	            var self = this;
-	            console.log('sending to server:');
-	            console.log(obj);
-	            _superagent2.default.post("/merge").send(obj).end(function (err, res) {
+	            this.state.labels = obj;
+	            _superagent2.default.post("/merge").send(self.state).end(function (err, res) {
 	                console.log(res);
 	            });
 	        }
@@ -19919,47 +19917,52 @@
 	    _createClass(SimilarLabelsBox, [{
 	        key: 'handleClick',
 	        value: function handleClick(e) {
-	            console.log(this.state);
-	            this.props.send(this.state);
+	            var replacements = _.valuesIn(this.state);
+	            replacements = _.map(replacements, function (obj) {
+	                return JSON.parse(obj);
+	            });
+	            this.props.send(replacements);
 	        }
 	    }, {
 	        key: 'onChange',
 	        value: function onChange(e) {
 	            var name = e.target.name;
 	            this.setState(_defineProperty({}, name, e.target.value));
-	            console.log(e.target);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var self = this;
-	            var labels = _.map(this.props.labels, function (label) {
-	                if (label[2] > 0.6) {
-	                    var key_ = label[0] + ":" + label[1] + ":" + label[2];
-	                    var name_ = label[0] + ":" + label[1] + ":" + label[2];
+	            var i = 0;
+	            var labels = _.map(this.props.labels, function (label_pair) {
+	                if (label_pair.distance > 0.6) {
+	                    i = i + 1;
+	                    var name_ = label_pair.obj1.id + ":" + label_pair.obj2.id;
+	                    var value1 = JSON.stringify({ selected: label_pair.obj1.id, to_delete: label_pair.obj2.id });
+	                    var value2 = JSON.stringify({ selected: label_pair.obj2.id, to_delete: label_pair.obj1.id });
 	                    return _react2.default.createElement(
 	                        'tbody',
-	                        null,
+	                        { key: i },
 	                        _react2.default.createElement(
 	                            'tr',
 	                            null,
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: label[0], key: key_, onChange: self.onChange.bind(self) }),
-	                                label[0]
+	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: value1, onChange: self.onChange.bind(self) }),
+	                                label_pair.obj1.name
 	                            ),
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: label[1], key: key_, onChange: self.onChange.bind(self) }),
-	                                label[1]
+	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: value2, onChange: self.onChange.bind(self) }),
+	                                label_pair.obj2.name
 	                            ),
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
 	                                'distance: ',
-	                                label[2]
+	                                label_pair.distance
 	                            )
 	                        )
 	                    );

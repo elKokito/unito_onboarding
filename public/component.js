@@ -96,28 +96,33 @@ class SimilarLabelsBox extends React.Component {
     }
 
     handleClick(e) {
-        console.log(this.state);
-        this.props.send(this.state);
+        var replacements = _.valuesIn(this.state);
+        replacements = _.map(replacements, function(obj) {
+            return JSON.parse(obj);
+        });
+        this.props.send(replacements);
     }
 
     onChange(e) {
         var name = e.target.name;
         this.setState({[name]: e.target.value});
-        console.log(e.target);
     }
 
     render() {
         var self = this;
-        var labels = _.map(this.props.labels, function(label) {
-            if(label[2] > 0.6) {
-                var key_ = label[0] + ":" + label[1] + ":" +  label[2];
-                var name_ = label[0] + ":" + label[1] + ":" + label[2];
+        var i = 0;
+        var labels = _.map(this.props.labels, function(label_pair) {
+            if(label_pair.distance > 0.6) {
+                i = i+1;
+                var name_ = label_pair.obj1.id + ":" +  label_pair.obj2.id;
+                var value1 = JSON.stringify({selected: label_pair.obj1.id, to_delete: label_pair.obj2.id});
+                var value2 = JSON.stringify({selected: label_pair.obj2.id, to_delete: label_pair.obj1.id});
                 return (
-                    <tbody>
+                    <tbody key={i} >
                         <tr>
-                            <td><input type="radio" name={name_} value={label[0]} key={key_} onChange={self.onChange.bind(self)} />{label[0]}</td>
-                            <td><input type="radio" name={name_} value={label[1]} key={key_} onChange={self.onChange.bind(self)} />{label[1]}</td>
-                            <td>distance: {label[2]}</td>
+                            <td><input type="radio" name={name_} value={value1} onChange={self.onChange.bind(self)} />{label_pair.obj1.name}</td>
+                            <td><input type="radio" name={name_} value={value2} onChange={self.onChange.bind(self)} />{label_pair.obj2.name}</td>
+                            <td>distance: {label_pair.distance}</td>
                         </tr>
                     </tbody>
                 );
