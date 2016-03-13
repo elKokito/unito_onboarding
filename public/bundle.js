@@ -120,6 +120,7 @@
 	                    null,
 	                    'my app'
 	                ),
+	                _react2.default.createElement(_component.TokenBox, null),
 	                _react2.default.createElement(_component.IdentificationBox, { sendBoards: this.submitBoards.bind(this) }),
 	                boardsbox,
 	                similarlabelsbox
@@ -19968,6 +19969,10 @@
 	                    );
 	                }
 	            });
+	            if (i == 0) {
+	                // TODO make it more explicit that there's no suggestion
+	                console.log('no suggestion');
+	            }
 	            return _react2.default.createElement(
 	                'div',
 	                null,

@@ -48,6 +48,7 @@ class App extends React.Component {
         return (
             <div>
                 <h1>my app</h1>
+                <TokenBox />
                 <IdentificationBox sendBoards={this.submitBoards.bind(this)}/>
                 {boardsbox}
                 {similarlabelsbox}

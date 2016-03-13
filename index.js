@@ -54,6 +54,7 @@ app.get("/member_info", function(req, res) {
             var t = new Trello(key, obj.token);
             t.get("/1/members/me", function(err, data) {
 
+                // TODO run parallel instead of map
                 async.map(
                     data.idBoards,
                     function(id, cb) {
@@ -85,7 +86,7 @@ app.get("/board_labels", function(req, res) {
             t.get("/1/boards/" + req.query.id + "/cards", function(err, data) {
                 _.map(data, function(card) {
                     var names = _.map(card.labels, function(label) {
-                        return label.name;
+                        return {name: label.name, id: label.id} ;
                     })
                     labels = labels.concat(names);
                 });
@@ -98,12 +99,13 @@ app.get("/board_labels", function(req, res) {
 app.post("/duplicate", function(req, res) {
     var labels = req.body.labels;
     var pairs = []
-    console.log(labels);
     for (var i = 0; i < labels.length; i++) {
         for(var j = i+1; j < labels.length; j++) {
-            if(labels[i] != "" && labels[j] != "" && labels[i] != labels[j]) {
-                var distance = natural.JaroWinklerDistance(labels[i], labels[j]);
-                pairs.push([labels[i], labels[j], distance]);
+            if(labels[i].name != "" && labels[j].name != "" && labels[i].name != labels[j].name) {
+                var distance = natural.JaroWinklerDistance(labels[i].name, labels[j].name);
+                var obj1 = {name: labels[i].name, id: labels[i].id}
+                var obj2 = {name: labels[j].name, id: labels[j].id}
+                pairs.push({obj1, obj2, distance});
             }
         }
     }
@@ -111,7 +113,36 @@ app.post("/duplicate", function(req, res) {
 });
 
 app.post("/merge", function(req, res) {
-    console.log(req.body);
+    var boardid = req.body.selected_board;
+    var username = req.body.username;
+    var pseudo_db = config.get("db.file");
+    var labels_to_update = req.body.labels;
+    var labelid = "56e2efa2152c3f92fd61ed3d";
+    // TODO refactor callbacks of callbacks
+    jsonfile.readFile(pseudo_db, function(err, obj) {
+        if(obj.username == username) {
+            var t = new Trello(key, obj.token);
+            t.get("/1/boards/" + boardid + "/cards", function(err, data) {
+                _.map(data, function(card) {
+                    for(var i = 0; i < labels_to_update.length; i++){
+                        if(card.idLabels.indexOf(labels_to_update[i].to_delete) != -1){
+                            var label_to_delete = labels_to_update[i].to_delete;
+                            var label_to_add = labels_to_update[i].selected;
+                            t.post("/1/cards/" + card.id + "/idLabels", {value: label_to_add}, function(err, r) {
+                                if(err)
+                                    console.log(err);
+                            });
+                            t.del("/1/cards/" + card.id + "/idLabels/" + label_to_delete, function(err, r){
+                                if(err)
+                                    console.log(err);
+                            });
+                        }
+                    }
+                });
+                res.send();
+            });
+        }
+    });
 });
 
 
