@@ -1,3 +1,6 @@
+/* jshint node: true */
+/* jshint esversion: 6 */
+"use strict";
 var express = require('express');
 var request  = require('superagent');
 var OAuth = require('oauth');
@@ -20,7 +23,7 @@ var url = config.get("trello.url") + key;
 
 app.get('/token', function(req, res) {
     res.redirect(url);
-})
+});
 
 app.post("/submit_token", function(req, res) {
     var token = req.body.token;
@@ -87,7 +90,7 @@ app.get("/board_labels", function(req, res) {
                 _.map(data, function(card) {
                     var names = _.map(card.labels, function(label) {
                         return {name: label.name, id: label.id} ;
-                    })
+                    });
                     labels = labels.concat(names);
                 });
                 res.send(labels);
@@ -98,13 +101,13 @@ app.get("/board_labels", function(req, res) {
 
 app.post("/duplicate", function(req, res) {
     var labels = req.body.labels;
-    var pairs = []
+    var pairs = [];
     for (var i = 0; i < labels.length; i++) {
         for(var j = i+1; j < labels.length; j++) {
-            if(labels[i].name != "" && labels[j].name != "" && labels[i].name != labels[j].name) {
+            if(labels[i].name !== "" && labels[j].name !== "" && labels[i].name !== labels[j].name) {
                 var distance = natural.JaroWinklerDistance(labels[i].name, labels[j].name);
-                var obj1 = {name: labels[i].name, id: labels[i].id}
-                var obj2 = {name: labels[j].name, id: labels[j].id}
+                var obj1 = {name: labels[i].name, id: labels[i].id};
+                var obj2 = {name: labels[j].name, id: labels[j].id};
                 pairs.push({obj1, obj2, distance});
             }
         }
