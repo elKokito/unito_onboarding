@@ -1,7 +1,7 @@
-'use strict';
-import React from 'react';
-import request from 'superagent';
-import * as _ from 'lodash';
+"use strict";
+import React from "react";
+import request from "superagent";
+import * as _ from "lodash";
 
 class IdentificationBox extends React.Component {
 
@@ -27,7 +27,7 @@ class IdentificationBox extends React.Component {
     render() {
         return (
             <div>
-                <input type='text' placeholder='username' onChange={this.handleUsername.bind(this)} value={this.state.username} />
+                <input type="text" placeholder="username" onChange={this.handleUsername.bind(this)} value={this.state.username} />
                 <button onClick={this.handleClick.bind(this)}>enter</button>
             </div>
         );
@@ -59,7 +59,7 @@ class TokenBox extends React.Component {
     render() {
         return (
             <div>
-                <input type='text' placeholder='token' onChange={this.handleToken.bind(this)} value={this.state.token} />
+                <input type="text" placeholder="token" onChange={this.handleToken.bind(this)} value={this.state.token} />
                 <button onClick={this.handleClick.bind(this)}>submit token</button>
                 <a href="/token" target="_blank">get token</a>
             </div>
@@ -73,7 +73,7 @@ class BoardsBox extends React.Component {
     }
 
     handleClick(e) {
-        this.props.requestBoard(e.target.getAttribute('data-boardid'));
+        this.props.requestBoard(e.target.getAttribute("data-boardid"));
     }
 
     render() {
@@ -129,8 +129,8 @@ class SimilarLabelsBox extends React.Component {
             }
         });
         if(i == 0) {
-            // TODO make it more explicit that there's no suggestion
-            console.log('no suggestion');
+            // TODO make it more explicit that there"s no suggestion
+            console.log("no suggestion");
         }
         return (
             <div>

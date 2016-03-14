@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -83,12 +83,12 @@
 	    }
 
 	    _createClass(App, [{
-	        key: 'submitBoards',
+	        key: "submitBoards",
 	        value: function submitBoards(boards, username) {
 	            this.setState({ boards: boards, username: username });
 	        }
 	    }, {
-	        key: 'requestBoard',
+	        key: "requestBoard",
 	        value: function requestBoard(boardid) {
 	            var self = this;
 	            this.state.selected_board = boardid;
@@ -99,7 +99,7 @@
 	            });
 	        }
 	    }, {
-	        key: 'sendDuplicateCorrection',
+	        key: "sendDuplicateCorrection",
 	        value: function sendDuplicateCorrection(obj) {
 	            var self = this;
 	            this.state.labels = obj;
@@ -108,17 +108,17 @@
 	            });
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            if (this.state.boards != []) var boardsbox = _react2.default.createElement(_component.BoardsBox, { boards: this.state.boards, requestBoard: this.requestBoard.bind(this) });
 	            if (this.state.labels != []) var similarlabelsbox = _react2.default.createElement(_component.SimilarLabelsBox, { labels: this.state.labels, send: this.sendDuplicateCorrection.bind(this) });
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
 	                _react2.default.createElement(
-	                    'h1',
+	                    "h1",
 	                    null,
-	                    'my app'
+	                    "my app"
 	                ),
 	                _react2.default.createElement(_component.TokenBox, null),
 	                _react2.default.createElement(_component.IdentificationBox, { sendBoards: this.submitBoards.bind(this) }),
@@ -131,7 +131,7 @@
 	    return App;
 	}(_react2.default.Component);
 
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("app"));
 
 /***/ },
 /* 1 */
@@ -19738,7 +19738,7 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -19784,12 +19784,12 @@
 	    }
 
 	    _createClass(IdentificationBox, [{
-	        key: 'handleUsername',
+	        key: "handleUsername",
 	        value: function handleUsername(e) {
 	            this.setState({ username: e.target.value });
 	        }
 	    }, {
-	        key: 'handleClick',
+	        key: "handleClick",
 	        value: function handleClick(e) {
 	            var self = this;
 	            _superagent2.default.get("/member_info?username=" + self.state.username).end(function (err, res) {
@@ -19798,16 +19798,16 @@
 	            });
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
-	                _react2.default.createElement('input', { type: 'text', placeholder: 'username', onChange: this.handleUsername.bind(this), value: this.state.username }),
+	                _react2.default.createElement("input", { type: "text", placeholder: "username", onChange: this.handleUsername.bind(this), value: this.state.username }),
 	                _react2.default.createElement(
-	                    'button',
+	                    "button",
 	                    { onClick: this.handleClick.bind(this) },
-	                    'enter'
+	                    "enter"
 	                )
 	            );
 	        }
@@ -19831,12 +19831,12 @@
 	    }
 
 	    _createClass(TokenBox, [{
-	        key: 'handleToken',
+	        key: "handleToken",
 	        value: function handleToken(e) {
 	            this.setState({ token: e.target.value });
 	        }
 	    }, {
-	        key: 'handleClick',
+	        key: "handleClick",
 	        value: function handleClick(e) {
 	            var self = this;
 	            _superagent2.default.post("/submit_token").send({ token: this.state.token }).end(function (err, res) {
@@ -19845,21 +19845,21 @@
 	            });
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
-	                _react2.default.createElement('input', { type: 'text', placeholder: 'token', onChange: this.handleToken.bind(this), value: this.state.token }),
+	                _react2.default.createElement("input", { type: "text", placeholder: "token", onChange: this.handleToken.bind(this), value: this.state.token }),
 	                _react2.default.createElement(
-	                    'button',
+	                    "button",
 	                    { onClick: this.handleClick.bind(this) },
-	                    'submit token'
+	                    "submit token"
 	                ),
 	                _react2.default.createElement(
-	                    'a',
-	                    { href: '/token', target: '_blank' },
-	                    'get token'
+	                    "a",
+	                    { href: "/token", target: "_blank" },
+	                    "get token"
 	                )
 	            );
 	        }
@@ -19880,23 +19880,23 @@
 	    }
 
 	    _createClass(BoardsBox, [{
-	        key: 'handleClick',
+	        key: "handleClick",
 	        value: function handleClick(e) {
-	            this.props.requestBoard(e.target.getAttribute('data-boardid'));
+	            this.props.requestBoard(e.target.getAttribute("data-boardid"));
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            var self = this;
 	            var buttons = _.map(this.props.boards, function (board) {
 	                return _react2.default.createElement(
-	                    'button',
-	                    { key: board.id, 'data-boardid': board.id, onClick: self.handleClick.bind(self) },
+	                    "button",
+	                    { key: board.id, "data-boardid": board.id, onClick: self.handleClick.bind(self) },
 	                    board.name
 	                );
 	            });
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
 	                buttons
 	            );
@@ -19916,7 +19916,7 @@
 	    }
 
 	    _createClass(SimilarLabelsBox, [{
-	        key: 'handleClick',
+	        key: "handleClick",
 	        value: function handleClick(e) {
 	            var replacements = _.valuesIn(this.state);
 	            replacements = _.map(replacements, function (obj) {
@@ -19925,13 +19925,13 @@
 	            this.props.send(replacements);
 	        }
 	    }, {
-	        key: 'onChange',
+	        key: "onChange",
 	        value: function onChange(e) {
 	            var name = e.target.name;
 	            this.setState(_defineProperty({}, name, e.target.value));
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            var self = this;
 	            var i = 0;
@@ -19942,27 +19942,27 @@
 	                    var value1 = JSON.stringify({ selected: label_pair.obj1.id, to_delete: label_pair.obj2.id });
 	                    var value2 = JSON.stringify({ selected: label_pair.obj2.id, to_delete: label_pair.obj1.id });
 	                    return _react2.default.createElement(
-	                        'tbody',
+	                        "tbody",
 	                        { key: i },
 	                        _react2.default.createElement(
-	                            'tr',
+	                            "tr",
 	                            null,
 	                            _react2.default.createElement(
-	                                'td',
+	                                "td",
 	                                null,
-	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: value1, onChange: self.onChange.bind(self) }),
+	                                _react2.default.createElement("input", { type: "radio", name: name_, value: value1, onChange: self.onChange.bind(self) }),
 	                                label_pair.obj1.name
 	                            ),
 	                            _react2.default.createElement(
-	                                'td',
+	                                "td",
 	                                null,
-	                                _react2.default.createElement('input', { type: 'radio', name: name_, value: value2, onChange: self.onChange.bind(self) }),
+	                                _react2.default.createElement("input", { type: "radio", name: name_, value: value2, onChange: self.onChange.bind(self) }),
 	                                label_pair.obj2.name
 	                            ),
 	                            _react2.default.createElement(
-	                                'td',
+	                                "td",
 	                                null,
-	                                'distance: ',
+	                                "distance: ",
 	                                label_pair.distance
 	                            )
 	                        )
@@ -19970,21 +19970,21 @@
 	                }
 	            });
 	            if (i == 0) {
-	                // TODO make it more explicit that there's no suggestion
-	                console.log('no suggestion');
+	                // TODO make it more explicit that there"s no suggestion
+	                console.log("no suggestion");
 	            }
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
 	                _react2.default.createElement(
-	                    'table',
+	                    "table",
 	                    null,
 	                    labels
 	                ),
 	                _react2.default.createElement(
-	                    'button',
+	                    "button",
 	                    { onClick: this.handleClick.bind(this) },
-	                    'merge'
+	                    "merge"
 	                )
 	            );
 	        }

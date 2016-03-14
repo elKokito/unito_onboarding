@@ -1,8 +1,8 @@
-'use strict';
-import React from 'react';
-import ReactDom from 'react-dom';
-import {IdentificationBox, TokenBox, BoardsBox, SimilarLabelsBox} from './component.js';
-import request from 'superagent';
+"use strict";
+import React from "react";
+import ReactDom from "react-dom";
+import {IdentificationBox, TokenBox, BoardsBox, SimilarLabelsBox} from "./component.js";
+import request from "superagent";
 
 class App extends React.Component {
 
@@ -59,5 +59,5 @@ class App extends React.Component {
 
 ReactDom.render(
     <App />,
-    document.getElementById('app')
+    document.getElementById("app")
 );
