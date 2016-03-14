@@ -1,31 +1,33 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
 "use strict";
-var express = require('express');
-var request  = require('superagent');
-var OAuth = require('oauth');
-var Trello = require('node-trello');
-var _ = require('lodash');
-var natural = require('natural');
-var bodyParser = require('body-parser');
-var config = require('config');
-var jsonfile = require('jsonfile');
-var async = require('async');
+var express = require("express");
+var request  = require("superagent");
+var OAuth = require("oauth");
+var Trello = require("node-trello");
+var _ = require("lodash");
+var natural = require("natural");
+var bodyParser = require("body-parser");
+var config = require("config");
+var jsonfile = require("jsonfile");
+var async = require("async");
 var app = express();
 
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(bodyParser.json());
 
 var key = config.get("trello.key");
 var url = config.get("trello.url") + key;
 
 
-app.get('/token', function(req, res) {
+app.get("/token", function(req, res) {
     res.redirect(url);
 });
 
 app.post("/submit_token", function(req, res) {
+    // TODO change console.log for connect logger
+    console.log("/submit_token");
     var token = req.body.token;
     var pseudo_db = config.get("db.file");
     var t = new Trello(key, token);
@@ -49,6 +51,7 @@ app.post("/submit_token", function(req, res) {
 });
 
 app.get("/member_info", function(req, res) {
+    console.log("/member_info");
     var username = req.query.username;
     var pseudo_db = config.get("db.file");
     jsonfile.readFile(pseudo_db, function(err, obj) {
@@ -80,6 +83,7 @@ app.get("/member_info", function(req, res) {
 });
 
 app.get("/board_labels", function(req, res) {
+    console.log("/board_labels");
     var username = req.query.username;
     var pseudo_db = config.get("db.file");
     jsonfile.readFile(pseudo_db, function(err, obj) {
@@ -100,6 +104,7 @@ app.get("/board_labels", function(req, res) {
 });
 
 app.post("/duplicate", function(req, res) {
+    console.log("/duplicate");
     var labels = req.body.labels;
     var pairs = [];
     for (var i = 0; i < labels.length; i++) {
@@ -116,6 +121,7 @@ app.post("/duplicate", function(req, res) {
 });
 
 app.post("/merge", function(req, res) {
+    console.log("/merge");
     var boardid = req.body.selected_board;
     var username = req.body.username;
     var pseudo_db = config.get("db.file");
@@ -153,5 +159,5 @@ var server = app.listen(8000, function() {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('runing on %s : %s', host, port);
+    console.log("runing on %s : %s", host, port);
 });
