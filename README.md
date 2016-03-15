@@ -13,6 +13,8 @@ then you have to put it in default.json
 }
 ```
 
+app running on last update of node [howto](http://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version)
+
 User
 ====
 

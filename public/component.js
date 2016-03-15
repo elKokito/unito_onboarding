@@ -2,6 +2,7 @@
 import React from "react";
 import request from "superagent";
 import * as _ from "lodash";
+import Set from "collections/set";
 
 class IdentificationBox extends React.Component {
 
@@ -111,13 +112,15 @@ class SimilarLabelsBox extends React.Component {
     render() {
         var self = this;
         var i = 0;
+        var names = new Set();
         var button = null;
         var labels = _.map(this.props.labels, function(label_pair) {
-            if(label_pair.distance > 0.6) {
+            var name_ = label_pair.obj1.id + ":" +  label_pair.obj2.id;
+            if(label_pair.distance > 0.6 && !names.has(name_)) {
                 i = i+1;
-                var name_ = label_pair.obj1.id + ":" +  label_pair.obj2.id;
                 var value1 = JSON.stringify({selected: label_pair.obj1.id, to_delete: label_pair.obj2.id});
                 var value2 = JSON.stringify({selected: label_pair.obj2.id, to_delete: label_pair.obj1.id});
+                names.add(name_);
                 return (
                     <tbody key={i} >
                         <tr>
