@@ -46,12 +46,24 @@ class App extends React.Component {
         if(this.state.labels != [])
             var similarlabelsbox = <SimilarLabelsBox labels={this.state.labels} send={this.sendDuplicateCorrection.bind(this)} />;
         return (
-            <div>
-                <h1>my app</h1>
-                <TokenBox />
-                <IdentificationBox sendBoards={this.submitBoards.bind(this)}/>
-                {boardsbox}
-                {similarlabelsbox}
+            <div className="container-fluid">
+                <div className="row">
+                    <h1>my app</h1>
+                </div>
+                <div className="row">
+                    <div className="col-md-8">
+                        <IdentificationBox sendBoards={this.submitBoards.bind(this)}/>
+                    </div>
+                    <div className="col-md-4">
+                        <TokenBox />
+                    </div>
+                </div>
+                <div className="row">
+                    {boardsbox}
+                </div>
+                <div className="row">
+                    {similarlabelsbox}
+                </div>
             </div>
         );
     }

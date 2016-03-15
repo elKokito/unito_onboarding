@@ -111,6 +111,7 @@ class SimilarLabelsBox extends React.Component {
     render() {
         var self = this;
         var i = 0;
+        var button = null;
         var labels = _.map(this.props.labels, function(label_pair) {
             if(label_pair.distance > 0.6) {
                 i = i+1;
@@ -131,13 +132,18 @@ class SimilarLabelsBox extends React.Component {
         if(i == 0) {
             // TODO make it more explicit that there"s no suggestion
             console.log("no suggestion");
+            button = null;
+        }
+        else {
+            // show merge button
+            button = <button onClick={this.handleClick.bind(this)}>merge</button>;
         }
         return (
             <div>
                 <table>
                     {labels}
                 </table>
-                <button onClick={this.handleClick.bind(this)}>merge</button>
+                {button}
             </div>
         );
     }

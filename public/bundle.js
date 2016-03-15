@@ -114,16 +114,40 @@
 	            if (this.state.labels != []) var similarlabelsbox = _react2.default.createElement(_component.SimilarLabelsBox, { labels: this.state.labels, send: this.sendDuplicateCorrection.bind(this) });
 	            return _react2.default.createElement(
 	                "div",
-	                null,
+	                { className: "container-fluid" },
 	                _react2.default.createElement(
-	                    "h1",
-	                    null,
-	                    "my app"
+	                    "div",
+	                    { className: "row" },
+	                    _react2.default.createElement(
+	                        "h1",
+	                        null,
+	                        "my app"
+	                    )
 	                ),
-	                _react2.default.createElement(_component.TokenBox, null),
-	                _react2.default.createElement(_component.IdentificationBox, { sendBoards: this.submitBoards.bind(this) }),
-	                boardsbox,
-	                similarlabelsbox
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "col-md-8" },
+	                        _react2.default.createElement(_component.IdentificationBox, { sendBoards: this.submitBoards.bind(this) })
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "col-md-4" },
+	                        _react2.default.createElement(_component.TokenBox, null)
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    boardsbox
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "row" },
+	                    similarlabelsbox
+	                )
 	            );
 	        }
 	    }]);
@@ -19935,6 +19959,7 @@
 	        value: function render() {
 	            var self = this;
 	            var i = 0;
+	            var button = null;
 	            var labels = _.map(this.props.labels, function (label_pair) {
 	                if (label_pair.distance > 0.6) {
 	                    i = i + 1;
@@ -19972,6 +19997,14 @@
 	            if (i == 0) {
 	                // TODO make it more explicit that there"s no suggestion
 	                console.log("no suggestion");
+	                button = null;
+	            } else {
+	                // show merge button
+	                button = _react2.default.createElement(
+	                    "button",
+	                    { onClick: this.handleClick.bind(this) },
+	                    "merge"
+	                );
 	            }
 	            return _react2.default.createElement(
 	                "div",
@@ -19981,11 +20014,7 @@
 	                    null,
 	                    labels
 	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { onClick: this.handleClick.bind(this) },
-	                    "merge"
-	                )
+	                button
 	            );
 	        }
 	    }]);
@@ -21261,8 +21290,6 @@
 	 */
 	var isObject = __webpack_require__(164);
 
-	var FormData = __webpack_require__(165); // browserify compatible
-
 	/**
 	 * Clear previous timeout.
 	 *
@@ -21421,7 +21448,10 @@
 	 * @api public
 	 */
 	exports.field = function(name, val) {
-	  if (!this._formData) this._formData = new FormData();
+	  if (!this._formData) {
+	    var FormData = __webpack_require__(165); // browserify compatible. May throw if FormData is not supported natively.
+	    this._formData = new FormData();
+	  }
 	  this._formData.append(name, val);
 	  return this;
 	};
