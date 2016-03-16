@@ -112,6 +112,10 @@ app.get("/board_labels", function(req, res) {
                 res.send(labels);
             });
         }
+        else {
+            res.statusCode = 400;
+            res.send("error user without token");
+        }
     });
 });
 
@@ -168,6 +172,10 @@ app.post("/merge", function(req, res) {
                 res.send();
             });
         }
+        else {
+            res.statusCode = 400;
+            res.send("error user without token");
+        }
     });
 });
 
@@ -178,3 +186,5 @@ var server = app.listen(8000, function() {
 
     console.log("runing on %s : %s", host, port);
 });
+
+module.exports = server;
