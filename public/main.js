@@ -3,12 +3,17 @@ import React from "react";
 import ReactDom from "react-dom";
 import {IdentificationBox, TokenBox, BoardsBox, SimilarLabelsBox} from "./component.js";
 import request from "superagent";
+import NotificationSystem from 'react-notification-system';
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
         this.state ={boards: [], username: "", labels: [], selected_board: ""};
+    }
+
+    componentDidMount() {
+        this.notification = this.refs.notificationSystem;
     }
 
     submitBoards(boards, username) {
@@ -37,9 +42,23 @@ class App extends React.Component {
         .post("/merge")
         .send(self.state)
         .end(function(err, res) {
-            console.log(res);
+            if(err) {
+                self.notify("error", "merging error");
+            }
+            else{
+                self.notify("success", "merge complete");
+            }
         });
     }
+
+    notify(type, msg) {
+        this.notification.addNotification({
+            message: msg,
+            level: type,
+            position: "br"
+        });
+    }
+
     render() {
         if(this.state.boards != [])
             var boardsbox = <BoardsBox boards={this.state.boards} requestBoard={this.requestBoard.bind(this)} />;
@@ -52,10 +71,10 @@ class App extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-md-8">
-                        <IdentificationBox sendBoards={this.submitBoards.bind(this)}/>
+                        <IdentificationBox sendBoards={this.submitBoards.bind(this)} notify={this.notify.bind(this)}/>
                     </div>
                     <div className="col-md-4">
-                        <TokenBox />
+                        <TokenBox notify={this.notify.bind(this)} />
                     </div>
                 </div>
                 <div className="row">
@@ -64,6 +83,7 @@ class App extends React.Component {
                 <div className="row">
                     {similarlabelsbox}
                 </div>
+                <NotificationSystem ref="notificationSystem" />
             </div>
         );
     }

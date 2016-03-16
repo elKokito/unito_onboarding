@@ -83,8 +83,7 @@ app.get("/member_info", function(req, res) {
             });
         }
         else {
-            res.statusCode = 400;
-            res.send("error user without token");
+            res.send(400, { error: "user without token" });
         }
     });
 });

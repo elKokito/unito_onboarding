@@ -3,6 +3,7 @@ import React from "react";
 import request from "superagent";
 import * as _ from "lodash";
 import Set from "collections/set";
+import NotificationSystem from 'react-notification-system';
 
 class IdentificationBox extends React.Component {
 
@@ -11,17 +12,23 @@ class IdentificationBox extends React.Component {
         this.state = {username: ""};
     }
 
+
     handleUsername(e) {
         this.setState({username: e.target.value});
     }
 
     handleClick(e) {
+        e.preventDefault();
         var self = this;
         request
         .get("/member_info?username=" + self.state.username)
         .end(function(err, res) {
-            self.props.sendBoards(res.body, self.state.username);
-            //self.setState({username: ""});
+            if(err) {
+                self.props.notify("error", res.text);
+            }
+            else {
+                self.props.sendBoards(res.body, self.state.username);
+            }
         });
     }
 
@@ -52,8 +59,13 @@ class TokenBox extends React.Component {
         .post("/submit_token")
         .send({token: this.state.token})
         .end(function(err, res) {
-            console.log(res);
-            self.setState({token:""});
+            if(err) {
+                self.props.notify("error", "invalid token");
+            }
+            else {
+                self.props.notify("success", "token submitted");
+                self.setState({token:""});
+            }
         });
     }
 
@@ -144,6 +156,7 @@ class SimilarLabelsBox extends React.Component {
                 );
             }
         });
+        console.log(this.show);
         if(i == 0) {
             // TODO make it more explicit that there"s no suggestion
             console.log("no suggestion");
