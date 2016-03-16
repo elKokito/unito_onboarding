@@ -124,8 +124,20 @@ class SimilarLabelsBox extends React.Component {
                 return (
                     <tbody key={i} >
                         <tr>
-                            <td><input type="radio" name={name_} value={value1} onChange={self.onChange.bind(self)} />{label_pair.obj1.name}</td>
-                            <td><input type="radio" name={name_} value={value2} onChange={self.onChange.bind(self)} />{label_pair.obj2.name}</td>
+                            <td>
+                                <div className="radio">
+                                    <label><input type="radio" name={name_} value={value1} onChange={self.onChange.bind(self)} />
+                                    {label_pair.obj1.name}
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div className="radio">
+                                    <label><input type="radio" name={name_} value={value2} onChange={self.onChange.bind(self)} />
+                                    {label_pair.obj2.name}
+                                    </label>
+                                </div>
+                            </td>
                             <td>distance: {label_pair.distance}</td>
                         </tr>
                     </tbody>
@@ -143,7 +155,7 @@ class SimilarLabelsBox extends React.Component {
         }
         return (
             <div>
-                <table>
+                <table className="table">
                     {labels}
                 </table>
                 {button}

@@ -19981,14 +19981,30 @@
 	                            _react2.default.createElement(
 	                                "td",
 	                                null,
-	                                _react2.default.createElement("input", { type: "radio", name: name_, value: value1, onChange: self.onChange.bind(self) }),
-	                                label_pair.obj1.name
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "radio" },
+	                                    _react2.default.createElement(
+	                                        "label",
+	                                        null,
+	                                        _react2.default.createElement("input", { type: "radio", name: name_, value: value1, onChange: self.onChange.bind(self) }),
+	                                        label_pair.obj1.name
+	                                    )
+	                                )
 	                            ),
 	                            _react2.default.createElement(
 	                                "td",
 	                                null,
-	                                _react2.default.createElement("input", { type: "radio", name: name_, value: value2, onChange: self.onChange.bind(self) }),
-	                                label_pair.obj2.name
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "radio" },
+	                                    _react2.default.createElement(
+	                                        "label",
+	                                        null,
+	                                        _react2.default.createElement("input", { type: "radio", name: name_, value: value2, onChange: self.onChange.bind(self) }),
+	                                        label_pair.obj2.name
+	                                    )
+	                                )
 	                            ),
 	                            _react2.default.createElement(
 	                                "td",
@@ -20017,7 +20033,7 @@
 	                null,
 	                _react2.default.createElement(
 	                    "table",
-	                    null,
+	                    { className: "table" },
 	                    labels
 	                ),
 	                button
